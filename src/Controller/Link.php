@@ -6,15 +6,16 @@ namespace App\Controller;
 
 use App\Document;
 use App\Exception\ResourceNotFoundException;
-use App\Normalizer;
+use App\Normalizer\Normalizer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\LockException;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
-class User
+class Link
 {
     /**
      * @var DocumentManager
@@ -22,37 +23,18 @@ class User
     protected DocumentManager $documentManager;
 
     /**
-     * @var Normalizer\Normalizer
+     * @var Normalizer
      */
-    protected Normalizer\Normalizer $normalizer;
+    protected Normalizer $normalizer;
 
     /**
      * @param DocumentManager $documentManager
-     * @param Normalizer\Normalizer $normalizer
+     * @param Normalizer $normalizer
      */
-    public function __construct(DocumentManager $documentManager, Normalizer\Normalizer $normalizer)
+    public function __construct(DocumentManager $documentManager, Normalizer $normalizer)
     {
         $this->documentManager = $documentManager;
         $this->normalizer = $normalizer;
-    }
-
-    /**
-     * @param int $id
-     * @return JsonResponse
-     * @throws LockException
-     * @throws MappingException
-     * @throws ResourceNotFoundException
-     */
-    #[Route('/api/users/{id}', name: 'get_user_links', methods: ['GET'])]
-    public function getLinksByUserId(int $id)
-    {
-        $userRepository = $this->documentManager->getRepository(Document\User::class);
-        $user = $userRepository->find($id);
-        if ($user === null) {
-            throw new ResourceNotFoundException();
-        }
-
-        return new JsonResponse(['user' => $this->normalizer->normalizeUser($user)]);
     }
 
     /**
@@ -62,8 +44,8 @@ class User
      * @throws LockException
      * @throws MappingException
      */
-    #[Route('/api/users/{id}', name: 'put_update_user', methods: ['PUT'])]
-    public function updateUserById(Request $request, int $id)
+    #[Route('/api/users/{id}/links', name: 'put_user_links', methods: ['PUT'])]
+    public function newLinkListByUserId(Request $request, int $id)
     {
         $userRepository = $this->documentManager->getRepository(Document\User::class);
         $user = $userRepository->find($id);
@@ -73,9 +55,9 @@ class User
 
         $content = $request->getContent();
 
-        // Validate the message
+        // @todo: Validate the message
 
-        // Update the users links
+        // @todo: Update the users links
 
         return new JsonResponse(['message' => sprintf('Successfully updated user %s', $id), 'test' => $content]);
     }

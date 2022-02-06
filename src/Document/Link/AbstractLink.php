@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Document\Link;
 
-use App\Document\User;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use DateTime;
 
@@ -24,10 +23,10 @@ abstract class AbstractLink implements LinkInterface
     protected string $title;
 
     /**
-     * @var string
-     * @ODM\Field(type="string")
+     * @var string|null
+     * @ODM\Field(type="string", nullable=true)
      */
-    protected string $url;
+    protected ?string $url;
 
     /**
      * @var string

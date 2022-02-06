@@ -13,7 +13,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // ClassicLink Link User
+        // Classic Link User
         $links = new ArrayCollection([]);
 
         $classicLinks = Factory\ShowListLink::createMany(5);
