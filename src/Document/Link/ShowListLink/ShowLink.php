@@ -12,5 +12,5 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 class ShowLink extends AbstractLink
 {
-
+    public const LINK_TYPE = 'showLink';
 }

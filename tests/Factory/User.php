@@ -3,7 +3,6 @@
 namespace App\Tests\Factory;
 
 use App\Document;
-use App\Repository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
@@ -24,11 +23,15 @@ use Zenstruck\Foundry\Proxy;
  * @method static Document\User[]|Proxy[] findBy(array $attributes)
  * @method static Document\User[]|Proxy[] randomSet(int $number, array $attributes = [])
  * @method static Document\User[]|Proxy[] randomRange(int $min, int $max, array $attributes = [])
- * @method static Repository\User|RepositoryProxy repository()
  * @method Document\User|Proxy create(array|callable $attributes = [])
  */
 final class User extends ModelFactory
 {
+    public const CLASSIC_USER_ID = 1;
+    public const SHOWS_USER_ID = 2;
+    public const MUSIC_USER_ID = 3;
+    public const MIXED_USER_ID = 4;
+
     protected function getDefaults(): array
     {
         return [

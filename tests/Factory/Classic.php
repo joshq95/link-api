@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Factory;
 
 use App\Document\Link;
+use DateTime;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 
@@ -31,8 +34,8 @@ final class Classic extends ModelFactory
             'title' => self::faker()->realText(20),
             'url' => self::faker()->url(),
             'linkType' => Link\Classic::LINK_TYPE,
-            'createdAt' => self::faker()->dateTime(),
-            'updatedAt' => self::faker()->dateTime(),
+            'createdAt' => new DateTime(),
+            'updatedAt' => new DateTime(),
         ];
     }
 
