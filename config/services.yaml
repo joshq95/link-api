@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    mongodb_server: "mongodb://linktree:linktree@mongodb:27017/?authSource=auth-db"
+    mongodb_server: "mongodb://linktree:linktree@mongodb:27017/"
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -20,6 +20,44 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    serializer.mapping.loader.annotation_loader:
+        class: Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader
+        arguments:
+            - '@annotations.reader'
+
+    serializer.mapping.class_metadata_factory:
+        class: Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory
+        arguments:
+            - '@serializer.mapping.loader.annotation_loader'
+
+    serializer.name_converter.metadata_aware:
+        class: Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter
+        arguments:
+            - '@serializer.mapping.class_metadata_factory'
+
+    serializer.normalizer.object:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+        tags: [ serializer.normalizer ]
+        arguments:
+            - '@serializer.mapping.class_metadata_factory'
+            - '@serializer.name_converter.metadata_aware'
+
+    serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            - [ '@serializer.normalizer.object' ]
+            - [ json: '@serializer.encoder.json' ]
+        autoconfigure: false
+
+    # makes classes in src/AppBundle/DataFixtures available to be used as services
+    # and have a tag that allows actions to type-hint services
+    App\Tests\DataFixtures\:
+        resource: '../tests/DataFixtures/'
+        tags: ['doctrine.fixture.odm.mongodb']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

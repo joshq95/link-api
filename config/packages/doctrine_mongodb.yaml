@@ -18,3 +18,4 @@ doctrine_mongodb:
           dir: '%kernel.project_dir%/src/Document'
           prefix: App\Document\
           alias: App
+  fixture_loader: Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader

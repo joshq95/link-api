@@ -6,5 +6,5 @@ namespace App\Document\Link;
 
 interface LinkInterface
 {
-    public function getNormalizeFields(): array;
+
 }

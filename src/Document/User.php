@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Document;
 
+use App\Document\Link\LinkInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @ODM\Document(
- *     collection="users",
- *     repositoryClass="App\Repository\UserRepository"
- * )
+ * @ODM\Document(collection="users")
  * @ODM\Index(keys={"username"="desc"}, options={"unique"=true})
  */
 class User
 {
     /**
-     * @var string
-     * @ODM\Id(strategy="AUTO", type="string")
+     * @var int
+     * @ODM\Id(strategy="INCREMENT", type="int")
      */
-    protected string $id;
+    protected int $id;
 
     /**
      * @var string
@@ -35,7 +33,7 @@ class User
     protected string $imageUrl;
 
     /**
-     * @var Collection
+     * @var Collection<LinkInterface>
      * @ODM\EmbedMany(discriminatorField="type")
      */
     protected Collection $links;
@@ -43,16 +41,16 @@ class User
     /**
      * @return int
      */
-    public function getId(): string
+    public function getId(): int
     {
-        return $this->string;
+        return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return User
      */
-    public function setId(string $id): User
+    public function setId(int $id): User
     {
         $this->id = $id;
         return $this;
@@ -73,6 +71,42 @@ class User
     public function setLinks(Collection $links): User
     {
         $this->links = $links;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     * @return User
+     */
+    public function setUsername(string $username): User
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl(): string
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string $imageUrl
+     * @return User
+     */
+    public function setImageUrl(string $imageUrl): User
+    {
+        $this->imageUrl = $imageUrl;
         return $this;
     }
 }

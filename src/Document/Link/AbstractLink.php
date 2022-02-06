@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Document\Link;
 
+use App\Document\User;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use DateTime;
 
 /** @ODM\MappedSuperclass */
-abstract class AbstractLink
+abstract class AbstractLink implements LinkInterface
 {
     /**
-     * @var string
-     * @ODM\Id(strategy="AUTO", type="string")
+     * @var int
+     * @ODM\Id(strategy="INCREMENT", type="int")
      */
-    protected string $id;
+    protected int $id;
 
     /**
      * @var string
@@ -47,18 +48,18 @@ abstract class AbstractLink
     protected DateTime $updatedAt;
 
     /**
-     * @return string
+     * @return int
      */
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return AbstractLink
      */
-    public function setId(string $id): AbstractLink
+    public function setId(int $id): AbstractLink
     {
         $this->id = $id;
         return $this;

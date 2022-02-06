@@ -12,5 +12,5 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 class Classic extends AbstractLink
 {
-    protected const LINK_TYPE = 'classic';
+    public const LINK_TYPE = 'classic';
 }
