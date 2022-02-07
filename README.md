@@ -1,6 +1,4 @@
 # joshq95/linktree-coding-challenge
-![Tests](https://github.com/cborgas/toy-robot/workflows/Tests/badge.svg)
-[![codecov](https://codecov.io/gh/cborgas/toy-robot/branch/master/graph/badge.svg)](https://codecov.io/gh/cborgas/toy-robot)
 
 A REST API with the intention of returning links for a specific user, with the ability to update them.
 
