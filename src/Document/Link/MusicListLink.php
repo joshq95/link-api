@@ -8,7 +8,6 @@ use App\Document\Link\MusicListLink\MusicLink;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-
 /**
  * @ODM\Document(collection="links")
  * @ODM\DiscriminatorField("type")

@@ -32,10 +32,20 @@ class Normalizer
      */
     public function normalizeUser(Document\User $user): array
     {
+        // This call back is used to reformat the datetimes when being normalized
         $dateCallback = function ($innerObject) {
             return $innerObject instanceof \DateTime ? $innerObject->format(DateTimeInterface::ISO8601) : '';
         };
 
-        return $this->serializer->normalize($user, null, [AbstractNormalizer::CALLBACKS => ['createdAt' => $dateCallback, 'updatedAt' => $dateCallback]]);
+        return $this->serializer->normalize(
+            $user,
+            null,
+            [
+                AbstractNormalizer::CALLBACKS => [
+                    'createdAt' => $dateCallback,
+                    'updatedAt' => $dateCallback
+                ]
+            ]
+        );
     }
 }

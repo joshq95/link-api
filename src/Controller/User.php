@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Document;
-use App\Exception\ResourceNotFoundException;
 use App\Normalizer\Normalizer;
 use App\Request\Validator;
+use App\Response\Exception\ResourceNotFoundException;
 use App\Serializer\Serializer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\LockException;
@@ -49,8 +49,12 @@ class User
      * @param Serializer $serializer
      * @param Validator $validator
      */
-    public function __construct(DocumentManager $documentManager, Normalizer $normalizer, Serializer $serializer, Validator $validator)
-    {
+    public function __construct(
+        DocumentManager $documentManager,
+        Normalizer $normalizer,
+        Serializer $serializer,
+        Validator $validator
+    ) {
         $this->documentManager = $documentManager;
         $this->normalizer = $normalizer;
         $this->serializer = $serializer;
