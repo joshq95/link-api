@@ -105,6 +105,6 @@ class User
             throw new JsonException($exception->getMessage());
         }
 
-        return new JsonResponse(['message' => sprintf('Successfully updated user %s', $id)], Response::HTTP_ACCEPTED);
+        return new JsonResponse(['message' => sprintf('Successfully updated user %s', $id)], Response::HTTP_OK);
     }
 }
