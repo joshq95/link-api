@@ -7,6 +7,7 @@ namespace App\Document;
 use App\Document\Link\LinkInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ODM\Document(collection="users")
@@ -22,17 +23,22 @@ class User
 
     /**
      * @var string
+     * @Assert\NotBlank
      * @ODM\Field(type="string")
      */
     protected string $username;
 
     /**
      * @var string
+     * @Assert\Url(
+     *    message = "The User imageUrl '{{ value }}' is not a valid url",
+     * )
      * @ODM\Field(type="string")
      */
     protected string $imageUrl;
 
     /**
+     * @todo: add custom collection for allowing sorting by date created
      * @var Collection<LinkInterface>
      * @ODM\EmbedMany(discriminatorField="type")
      */

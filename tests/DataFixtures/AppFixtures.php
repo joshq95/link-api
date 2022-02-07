@@ -14,34 +14,51 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // Classic Link User
-        $links = new ArrayCollection([]);
-
-        $classicLinks = Factory\ShowListLink::createMany(5);
+        $classicLinksCollection = new ArrayCollection();
+        $classicLinks = Factory\Classic::createMany(5);
         foreach ($classicLinks as $classicLink) {
-            $links->add($classicLink->object());
+            $classicLinksCollection->add($classicLink->object());
         }
 
-        Factory\User::createOne(['id' => Factory\User::CLASSIC_USER_ID, 'links' => $links]);
-        $links->clear();
+        Factory\User::createOne(['id' => Factory\User::CLASSIC_USER_ID, 'links' => $classicLinksCollection]);
 
         // Show Link User
+        $showLinksCollection = new ArrayCollection();
         $showLinks = Factory\ShowLink::createMany(5);
         foreach ($showLinks as $showLink) {
-            $links->add($showLink->object());
+            $showLinksCollection->add($showLink->object());
         }
 
-        $showListLink = Factory\ShowListLink::createOne(['showLinks' => $links]);
+        $showListLink = Factory\ShowListLink::createOne(['showLinks' => $showLinksCollection]);
 
         Factory\User::createOne(['id' => Factory\User::SHOWS_USER_ID, 'links' => new ArrayCollection([$showListLink->object()])]);
-        $links->clear();
 
         // Music Link User
+        $musicLinksCollection = new ArrayCollection();
         $musicLinks = Factory\MusicLink::createMany(5);
         foreach ($musicLinks as $musicLink) {
-            $links->add($musicLink->object());
+            $musicLinksCollection->add($musicLink->object());
         }
 
-        Factory\User::createOne(['id' => Factory\User::MUSIC_USER_ID, 'links' => $links]);
-        $links->clear();
+        Factory\User::createOne(['id' => Factory\User::MUSIC_USER_ID, 'links' => $musicLinksCollection]);
+
+        // Mixed Link User
+        $mixedLinkCollection = new ArrayCollection();
+        $classicLink = Factory\Classic::createOne();
+
+        $mixedShowLinksCollection = new ArrayCollection();
+        $mixedShowLinks = Factory\ShowLink::createMany(5);
+        foreach ($mixedShowLinks as $mixedShowLink) {
+            $mixedShowLinksCollection->add($mixedShowLink->object());
+        }
+
+        $showListLink = Factory\ShowListLink::createOne(['showLinks' => $mixedShowLinksCollection]);
+        $musicLink = Factory\MusicLink::createOne();
+
+        $mixedLinkCollection->add($classicLink->object());
+        $mixedLinkCollection->add($showListLink->object());
+        $mixedLinkCollection->add($musicLink->object());
+
+        Factory\User::createOne(['id' => Factory\User::MIXED_USER_ID, 'links' => $mixedLinkCollection]);
     }
 }

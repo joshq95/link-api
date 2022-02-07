@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Document\Link;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use DateTime;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /** @ODM\MappedSuperclass */
 abstract class AbstractLink implements LinkInterface
@@ -19,12 +20,19 @@ abstract class AbstractLink implements LinkInterface
     /**
      * @var string
      * @ODM\Field(type="string")
+     * @Assert\Length(
+     *      max = 144,
+     *      maxMessage = "The link title cannot be longer than {{ limit }} characters"
+     * )
      */
     protected string $title;
 
     /**
      * @var string|null
      * @ODM\Field(type="string", nullable=true)
+     * @Assert\Url(
+     *    message = "The url '{{ value }}' is not a valid url",
+     * )
      */
     protected ?string $url;
 
