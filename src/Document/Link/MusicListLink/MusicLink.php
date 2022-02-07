@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Document\Link;
+namespace App\Document\Link\MusicListLink;
 
+use App\Document\Link\AbstractLink;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @ODM\Document(collection="links")
- * @ODM\DiscriminatorField("type")
+ * @ODM\EmbeddedDocument
  */
 class MusicLink extends AbstractLink
 {

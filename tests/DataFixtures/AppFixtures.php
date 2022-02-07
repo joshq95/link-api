@@ -40,7 +40,9 @@ class AppFixtures extends Fixture
             $musicLinksCollection->add($musicLink->object());
         }
 
-        Factory\User::createOne(['id' => Factory\User::MUSIC_USER_ID, 'links' => $musicLinksCollection]);
+        $musicListLink = Factory\MusicListLink::createOne(['musicLinks' => $musicLinksCollection]);
+
+        Factory\User::createOne(['id' => Factory\User::MUSIC_USER_ID, 'links' => new ArrayCollection([$musicListLink->object()])]);
 
         // Mixed Link User
         $mixedLinkCollection = new ArrayCollection();
@@ -53,7 +55,13 @@ class AppFixtures extends Fixture
         }
 
         $showListLink = Factory\ShowListLink::createOne(['showLinks' => $mixedShowLinksCollection]);
-        $musicLink = Factory\MusicLink::createOne();
+
+        $mixedMusicLinksCollection = new ArrayCollection();
+        $mixedMusicLinks = Factory\ShowLink::createMany(5);
+        foreach ($mixedMusicLinks as $mixedMusicLink) {
+            $mixedMusicLinksCollection->add($mixedMusicLink->object());
+        }
+        $musicLink = Factory\MusicListLink::createOne(['musicLinks' => $mixedMusicLinksCollection]);
 
         $mixedLinkCollection->add($classicLink->object());
         $mixedLinkCollection->add($showListLink->object());

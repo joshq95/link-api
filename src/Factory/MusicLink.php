@@ -15,7 +15,7 @@ class MusicLink implements LinkFactoryInterface
      */
     public static function createLink(array $linkData): Link\AbstractLink
     {
-        return (new Link\MusicLink())
+        return (new Link\MusicListLink\MusicLink())
             ->setTitle($linkData['title'])
             ->setUrl($linkData['url'])
             ->setCreatedAt(new DateTime())

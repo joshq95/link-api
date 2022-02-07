@@ -7,7 +7,7 @@ namespace App\Serializer;
 use App\Document;
 use App\Document\Link\AbstractLink;
 use App\Document\Link\Classic;
-use App\Document\Link\MusicLink;
+use App\Document\Link\MusicListLink;
 use App\Document\Link\ShowListLink;
 use App\Factory;
 use App\Request\Exception\InvalidRequestException;
@@ -77,7 +77,8 @@ class Serializer
             Classic::LINK_TYPE => Factory\ClassicLink::createLink($decodedLink),
             ShowListLink::LINK_TYPE => Factory\ShowListLink::createLink($decodedLink),
             ShowListLink\ShowLink::LINK_TYPE => Factory\ShowLink::createLink($decodedLink),
-            MusicLink::LINK_TYPE => Factory\MusicLink::createLink($decodedLink)
+            MusicListLink::LINK_TYPE => Factory\MusicListLink::createLink($decodedLink),
+            MusicListLink\MusicLink::LINK_TYPE => Factory\MusicLink::createLink($decodedLink)
         };
     }
 }
