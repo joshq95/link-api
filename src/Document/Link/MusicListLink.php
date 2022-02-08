@@ -14,7 +14,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 class MusicListLink extends AbstractLink
 {
-    public const LINK_TYPE = 'musicLink';
+    public const LINK_TYPE = 'musicListLink';
 
     /**
      * @var Collection

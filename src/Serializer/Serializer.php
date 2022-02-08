@@ -11,6 +11,7 @@ use App\Document\Link\MusicListLink;
 use App\Document\Link\ShowListLink;
 use App\Factory;
 use App\Request\Exception\InvalidRequestException;
+use App\Request\Validator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -23,11 +24,18 @@ class Serializer
     protected SerializerInterface $serializer;
 
     /**
-     * @param SerializerInterface $serializer
+     * @var Validator
      */
-    public function __construct(SerializerInterface $serializer)
+    protected Validator $validator;
+
+    /**
+     * @param SerializerInterface $serializer
+     * @param Validator $validator
+     */
+    public function __construct(SerializerInterface $serializer, Validator $validator)
     {
         $this->serializer = $serializer;
+        $this->validator = $validator;
     }
 
     /**
@@ -51,20 +59,13 @@ class Serializer
         $linkCollection = new ArrayCollection();
         $decodedLinks = $this->serializer->decode($requestContent, 'json')['links'];
         foreach ($decodedLinks as $decodedLink) {
-            $linkCollection->add($this->createLink($decodedLink));
+            $link = $this->createLink($decodedLink);
+            $this->validator->validateLinkContent($link);
+            $linkCollection->add($link);
         }
         $deserializedUser->setLinks($linkCollection);
 
         return $deserializedUser;
-    }
-
-    public function deserializeNewLink(string $requestContent): AbstractLink
-    {
-        return $this->serializer->deserialize(
-            $requestContent,
-            AbstractLink::class,
-            'json'
-        );
     }
 
     /**
